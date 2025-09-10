@@ -1,0 +1,118 @@
+\\CLASSE COMPUTADOR
+
+public class Computador {
+    private int memoriaRAM;
+    private int SSD;
+    private int nucleos;
+    private float operacoesPorSegundo;
+
+    public Computador(int memoriaRAM, int SSD, int nucleos, float operacoesPorSegundo) {
+        this.memoriaRAM = memoriaRAM;
+        this.SSD = SSD;
+        this.nucleos = nucleos;
+        this.operacoesPorSegundo = operacoesPorSegundo;
+    }
+
+    public int getMemoriaRAM() {
+        return memoriaRAM;
+    }
+
+    public int getSSD() {
+        return SSD;
+    }
+
+    public int getNucleos() {
+        return nucleos;
+    }
+
+    public float getOperacoesPorSegundo() {
+        return operacoesPorSegundo;
+    }
+}
+
+//CLASSE PROGRAMA
+
+public class Programa {
+    private int memoriaRAMAlocada;
+    private int SSDOcupado;
+    private int nucleos;
+    private int quantidadeOperacoes;
+
+    public Programa(int memoriaRAMAlocada, int SSDOcupado, int nucleos, int quantidadeOperacoes) {
+        this.memoriaRAMAlocada = memoriaRAMAlocada;
+        this.SSDOcupado = SSDOcupado;
+        this.nucleos = nucleos;
+        this.quantidadeOperacoes = quantidadeOperacoes;
+    }
+
+    public int getMemoriaRAMAlocada() {
+        return memoriaRAMAlocada;
+    }
+
+    public int getSSDOcupado() {
+        return SSDOcupado;
+    }
+
+    public int getNucleos() {
+        return nucleos;
+    }
+
+    public int getQuantidadeOperacoes() {
+        return quantidadeOperacoes;
+    }
+}
+
+//CLASSE SISTEMA OPERACIONAL
+
+public class SistemaOperacional {
+    private Computador computador;
+
+    public SistemaOperacional(Computador computador) {
+        this.computador = computador;
+    }
+
+    public boolean executarPrograma(Programa p) {
+        if (p.getSSDOcupado() > computador.getSSD()) {
+            System.out.println("Erro: Espaço em SSD insuficiente para instalar o programa.");
+            return false;
+        } else if (p.getMemoriaRAMAlocada() > computador.getMemoriaRAM()) {
+            System.out.println("Erro: Memória RAM insuficiente para executar o programa.");
+            return false;
+        } else if (p.getNucleos() > computador.getNucleos()) {
+            System.out.println("Erro: Programa requer mais núcleos do que o computador possui.");
+            return false;
+        } else if (p.getQuantidadeOperacoes() > computador.getOperacoesPorSegundo()) {
+            System.out.println("Erro: O computador não suporta a quantidade de operações por segundo.");
+            return false;
+        } else {
+            System.out.println("Programa executado com sucesso!");
+            return true;
+        }
+    }
+}
+
+//MAIN
+
+public class Main {
+    public static void main(String[] args) {
+        
+        Computador pc = new Computador(8_000, 500, 4, 3.5f);
+
+        
+        SistemaOperacional so = new SistemaOperacional(pc);
+
+        
+        Programa p1 = new Programa(2000, 50, 2, 2);      // deve rodar com sucesso
+        Programa p2 = new Programa(16_000, 100, 2, 2);   // erro de RAM
+        Programa p3 = new Programa(4000, 600, 2, 2);     // erro de SSD
+        Programa p4 = new Programa(2000, 50, 8, 2);      // erro de núcleos
+        Programa p5 = new Programa(2000, 50, 2, 10);     // erro de operações por segundo
+
+        // Testando execução
+        so.executarPrograma(p1);
+        so.executarPrograma(p2);
+        so.executarPrograma(p3);
+        so.executarPrograma(p4);
+        so.executarPrograma(p5);
+    }
+}
